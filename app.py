@@ -343,6 +343,9 @@ with st.sidebar:
 
     if st.button("🤖 AI & Gamification Plan", use_container_width=True):
         go_to("AI Gamification")
+    
+    if st.button("🔒 Admin Dashboard", use_container_width=True):
+        go_to("Admin Dashboard")
 
     st.divider()
     st.caption("Developed by Hoe Weng Lee")
@@ -857,7 +860,81 @@ The quiz will help users check basic sports nutrition knowledge and receive simp
             use_container_width=True
         )
 
+elif st.session_state.page == "Admin Dashboard":
+    st.header("🔒 Admin Dashboard")
+    st.write("This page is password protected and only for viewing registration records.")
 
+    try:
+        admin_password = st.secrets["ADMIN_PASSWORD"]
+    except Exception:
+        st.error("Admin password is not configured yet.")
+        st.info("Please add ADMIN_PASSWORD in Streamlit Secrets.")
+        st.stop()
+
+    if "admin_logged_in" not in st.session_state:
+        st.session_state.admin_logged_in = False
+
+    if not st.session_state.admin_logged_in:
+        password_input = st.text_input("Enter admin password", type="password")
+
+        if st.button("Login"):
+            if password_input == admin_password:
+                st.session_state.admin_logged_in = True
+                st.success("Login successful.")
+                st.rerun()
+            else:
+                st.error("Incorrect password.")
+
+        st.stop()
+
+    if st.button("Log out"):
+        st.session_state.admin_logged_in = False
+        st.rerun()
+
+    st.divider()
+
+    conn = sqlite3.connect("registrations.db")
+
+    try:
+        df = pd.read_sql_query(
+            "SELECT * FROM registrations ORDER BY created_at DESC",
+            conn
+        )
+    except Exception:
+        df = pd.DataFrame()
+
+    conn.close()
+
+    st.subheader("Registration Overview")
+
+    if df.empty:
+        st.warning("No registrations found yet.")
+    else:
+        total_records = len(df)
+
+        if "organisation_name" in df.columns:
+            organisation_records = df["organisation_name"].fillna("").astype(str).str.strip().ne("").sum()
+        else:
+            organisation_records = 0
+
+        individual_records = total_records - organisation_records
+
+        c1, c2, c3 = st.columns(3)
+        c1.metric("Total Registrations", total_records)
+        c2.metric("Individual Registrations", individual_records)
+        c3.metric("Organisation Leads", organisation_records)
+
+        st.subheader("Registration Records")
+        st.dataframe(df, use_container_width=True)
+
+        csv = df.to_csv(index=False).encode("utf-8")
+
+        st.download_button(
+            label="Download Registrations as CSV",
+            data=csv,
+            file_name="circ_plus_registrations.csv",
+            mime="text/csv"
+        )
 # =====================================================
 # FOOTER
 # =====================================================
