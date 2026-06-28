@@ -1,6 +1,7 @@
 import streamlit as st
 import sqlite3
 import pandas as pd
+import re
 
 try:
     from database import create_table, insert_registration
@@ -13,6 +14,50 @@ except ImportError:
 # =====================================================
 
 create_table()
+def is_valid_email(email):
+    email = email.strip()
+
+    pattern = r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
+
+    if not re.match(pattern, email):
+        return False
+
+    if ".." in email:
+        return False
+
+    return True
+
+
+def is_valid_australian_phone(phone):
+    phone = phone.strip()
+
+    # Remove spaces, brackets and dashes
+    cleaned_phone = re.sub(r"[\s\-\(\)]", "", phone)
+
+    # Convert +61 format to 0 format
+    # Example: +61412345678 -> 0412345678
+    if cleaned_phone.startswith("+61"):
+        cleaned_phone = "0" + cleaned_phone[3:]
+
+    # Australian mobile number: 04XXXXXXXX
+    if re.match(r"^04\d{8}$", cleaned_phone):
+        return True
+
+    # Australian landline number: 02 / 03 / 07 / 08 + 8 digits
+    if re.match(r"^0[2378]\d{8}$", cleaned_phone):
+        return True
+
+    return False
+
+
+def clean_australian_phone(phone):
+    phone = phone.strip()
+    cleaned_phone = re.sub(r"[\s\-\(\)]", "", phone)
+
+    if cleaned_phone.startswith("+61"):
+        cleaned_phone = "0" + cleaned_phone[3:]
+
+    return cleaned_phone
 
 st.set_page_config(
     page_title="CIRC+ Education Platform",
@@ -694,17 +739,19 @@ Users can select a common language or choose Other and type their preferred lang
 # INDIVIDUAL REGISTRATION
 # =====================================================
 
+
 elif st.session_state.page == "Individual Registration":
     st.header("Register Interest for Sports Nutrition Seminar")
     st.write("Please complete the form below.")
+
+    # These are outside the form so "Other" will show the typing box immediately
+    final_language = preferred_language_input("individual")
+    sport = sport_interest_input("individual")
 
     with st.form("individual_registration_form"):
         name = st.text_input("Full Name")
         email = st.text_input("Email Address")
         phone = st.text_input("Phone Number")
-
-        final_language = preferred_language_input("individual")
-        sport = sport_interest_input("individual")
 
         notes = st.text_area("What would you like to learn about?")
 
@@ -717,16 +764,28 @@ elif st.session_state.page == "Individual Registration":
         if submitted:
             if not name or not email:
                 st.error("Please enter your name and email.")
+
+            elif not is_valid_email(email):
+                st.error("Invalid email address. Please enter a valid email. Example: name@example.com")
+
+            elif phone and not is_valid_australian_phone(phone):
+                st.error("Invalid Australian phone number. Please enter a valid number. Example: 0412345678 or +61412345678")
+
             elif not final_language:
-                st.error("Please select or type your preferred language.")
+                st.error("Please type your preferred language because you selected Other.")
+
             elif not sport:
-                st.error("Please select or type your sport / fitness interest.")
+                st.error("Please type your sport / fitness interest because you selected Other.")
+
             elif not consent:
                 st.error("Please tick the consent box before submitting.")
+
             else:
+                phone = clean_australian_phone(phone)
+
                 insert_registration(
-                    full_name=name,
-                    email=email,
+                    full_name=name.strip(),
+                    email=email.strip().lower(),
                     phone=phone,
                     preferred_language=final_language,
                     sport_interest=sport,
@@ -745,6 +804,7 @@ elif st.session_state.page == "Individual Registration":
 # ORGANISATION REGISTRATION
 # =====================================================
 
+
 elif st.session_state.page == "Organisation Registration":
     st.header("Sports Organisation / Club Interest Form")
 
@@ -753,15 +813,16 @@ elif st.session_state.page == "Organisation Registration":
         "interested in free sports nutrition and nitric oxide education."
     )
 
+    # These are outside the form so "Other" will show the typing box immediately
+    sport_type = sport_interest_input("organisation")
+    org_language = preferred_language_input("organisation")
+
     with st.form("organisation_interest_form"):
         organisation_name = st.text_input("Organisation / Club Name")
         contact_person = st.text_input("Contact Person")
         contact_role = st.text_input("Role / Position")
         org_email = st.text_input("Contact Email")
         org_phone = st.text_input("Contact Phone")
-
-        sport_type = sport_interest_input("organisation")
-        org_language = preferred_language_input("organisation")
 
         seminar_interest = st.selectbox(
             "Type of Interest",
@@ -785,20 +846,32 @@ elif st.session_state.page == "Organisation Registration":
         if submitted_org:
             if not organisation_name or not contact_person or not org_email:
                 st.error("Please enter organisation name, contact person and email.")
+
+            elif not is_valid_email(org_email):
+                st.error("Invalid email address. Please enter a valid organisation email. Example: club@example.com")
+
+            elif org_phone and not is_valid_australian_phone(org_phone):
+                st.error("Invalid Australian phone number. Please enter a valid number. Example: 0412345678 or +61412345678")
+
             elif not sport_type:
-                st.error("Please select or type the sport / community type.")
+                st.error("Please type the sport / community type because you selected Other.")
+
             elif not org_language:
-                st.error("Please select or type the preferred language.")
+                st.error("Please type the preferred language because you selected Other.")
+
             elif not consent:
                 st.error("Please tick the consent box before submitting.")
+
             else:
+                org_phone = clean_australian_phone(org_phone)
+
                 insert_registration(
-                    full_name=contact_person,
-                    email=org_email,
+                    full_name=contact_person.strip(),
+                    email=org_email.strip().lower(),
                     phone=org_phone,
                     preferred_language=org_language,
                     sport_interest=sport_type,
-                    organisation_name=organisation_name,
+                    organisation_name=organisation_name.strip(),
                     contact_role=contact_role,
                     seminar_interest=seminar_interest,
                     source=source,
