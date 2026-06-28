@@ -739,19 +739,18 @@ Users can select a common language or choose Other and type their preferred lang
 # INDIVIDUAL REGISTRATION
 # =====================================================
 
-
 elif st.session_state.page == "Individual Registration":
     st.header("Register Interest for Sports Nutrition Seminar")
     st.write("Please complete the form below.")
 
-    # These are outside the form so "Other" will show the typing box immediately
+    # Outside form so "Other" text box appears immediately
     final_language = preferred_language_input("individual")
     sport = sport_interest_input("individual")
 
     with st.form("individual_registration_form"):
         name = st.text_input("Full Name")
         email = st.text_input("Email Address")
-        phone = st.text_input("Phone Number")
+        phone = st.text_input("Phone Number", placeholder="Example: 0412345678 or +61412345678")
 
         notes = st.text_area("What would you like to learn about?")
 
@@ -762,13 +761,19 @@ elif st.session_state.page == "Individual Registration":
         submitted = st.form_submit_button("Submit Individual Registration")
 
         if submitted:
-            if not name or not email:
-                st.error("Please enter your name and email.")
+            if not name.strip():
+                st.error("Please enter your full name.")
+
+            elif not email.strip():
+                st.error("Please enter your email address.")
 
             elif not is_valid_email(email):
                 st.error("Invalid email address. Please enter a valid email. Example: name@example.com")
 
-            elif phone and not is_valid_australian_phone(phone):
+            elif not phone.strip():
+                st.error("Please enter your phone number.")
+
+            elif not is_valid_australian_phone(phone):
                 st.error("Invalid Australian phone number. Please enter a valid number. Example: 0412345678 or +61412345678")
 
             elif not final_language:
@@ -776,6 +781,9 @@ elif st.session_state.page == "Individual Registration":
 
             elif not sport:
                 st.error("Please type your sport / fitness interest because you selected Other.")
+
+            elif not notes.strip():
+                st.error("Please fill in what you would like to learn about.")
 
             elif not consent:
                 st.error("Please tick the consent box before submitting.")
@@ -793,17 +801,15 @@ elif st.session_state.page == "Individual Registration":
                     contact_role="Individual",
                     seminar_interest="Individual seminar interest",
                     source=source,
-                    notes=notes,
+                    notes=notes.strip(),
                     consent=consent
                 )
 
                 st.success("Thank you! Your registration has been saved successfully.")
 
-
 # =====================================================
 # ORGANISATION REGISTRATION
 # =====================================================
-
 
 elif st.session_state.page == "Organisation Registration":
     st.header("Sports Organisation / Club Interest Form")
@@ -813,7 +819,7 @@ elif st.session_state.page == "Organisation Registration":
         "interested in free sports nutrition and nitric oxide education."
     )
 
-    # These are outside the form so "Other" will show the typing box immediately
+    # Outside form so "Other" text box appears immediately
     sport_type = sport_interest_input("organisation")
     org_language = preferred_language_input("organisation")
 
@@ -822,7 +828,7 @@ elif st.session_state.page == "Organisation Registration":
         contact_person = st.text_input("Contact Person")
         contact_role = st.text_input("Role / Position")
         org_email = st.text_input("Contact Email")
-        org_phone = st.text_input("Contact Phone")
+        org_phone = st.text_input("Contact Phone", placeholder="Example: 0412345678 or +61412345678")
 
         seminar_interest = st.selectbox(
             "Type of Interest",
@@ -844,13 +850,25 @@ elif st.session_state.page == "Organisation Registration":
         submitted_org = st.form_submit_button("Submit Organisation Interest")
 
         if submitted_org:
-            if not organisation_name or not contact_person or not org_email:
-                st.error("Please enter organisation name, contact person and email.")
+            if not organisation_name.strip():
+                st.error("Please enter the organisation / club name.")
+
+            elif not contact_person.strip():
+                st.error("Please enter the contact person name.")
+
+            elif not contact_role.strip():
+                st.error("Please enter the role / position.")
+
+            elif not org_email.strip():
+                st.error("Please enter the organisation email address.")
 
             elif not is_valid_email(org_email):
                 st.error("Invalid email address. Please enter a valid organisation email. Example: club@example.com")
 
-            elif org_phone and not is_valid_australian_phone(org_phone):
+            elif not org_phone.strip():
+                st.error("Please enter the organisation phone number.")
+
+            elif not is_valid_australian_phone(org_phone):
                 st.error("Invalid Australian phone number. Please enter a valid number. Example: 0412345678 or +61412345678")
 
             elif not sport_type:
@@ -858,6 +876,9 @@ elif st.session_state.page == "Organisation Registration":
 
             elif not org_language:
                 st.error("Please type the preferred language because you selected Other.")
+
+            elif not notes.strip():
+                st.error("Please fill in the notes / questions section.")
 
             elif not consent:
                 st.error("Please tick the consent box before submitting.")
@@ -872,15 +893,14 @@ elif st.session_state.page == "Organisation Registration":
                     preferred_language=org_language,
                     sport_interest=sport_type,
                     organisation_name=organisation_name.strip(),
-                    contact_role=contact_role,
+                    contact_role=contact_role.strip(),
                     seminar_interest=seminar_interest,
                     source=source,
-                    notes=notes,
+                    notes=notes.strip(),
                     consent=consent
                 )
 
                 st.success("Thank you! The organisation interest form has been saved.")
-
 
 # =====================================================
 # AI AND GAMIFICATION PAGE
