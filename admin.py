@@ -35,447 +35,164 @@ def go_to(page_name):
 
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
-
-/* =========================
-   GLOBAL PREMIUM STYLE
-========================= */
-
-html, body, [class*="css"] {
-    font-family: 'Inter', sans-serif;
-}
-
 .stApp {
-    background:
-        radial-gradient(circle at 10% 10%, rgba(59, 130, 246, 0.35), transparent 28%),
-        radial-gradient(circle at 90% 10%, rgba(34, 197, 94, 0.24), transparent 25%),
-        radial-gradient(circle at 50% 90%, rgba(168, 85, 247, 0.18), transparent 30%),
-        linear-gradient(135deg, #020617 0%, #08111f 45%, #020617 100%);
+    background: linear-gradient(135deg, #020617 0%, #0f172a 45%, #111827 100%);
     color: #f8fafc;
 }
 
-.block-container {
-    padding-top: 1.6rem;
-    padding-bottom: 4rem;
-    max-width: 1280px;
-}
-
-/* =========================
-   TEXT
-========================= */
-
 h1, h2, h3 {
-    color: #ffffff !important;
-    font-weight: 900 !important;
-    letter-spacing: -0.8px;
+    color: #f8fafc !important;
+    font-weight: 850 !important;
 }
 
-h1 {
-    font-size: 2.7rem !important;
+p, label, span {
+    color: #e2e8f0 !important;
 }
-
-h2 {
-    margin-top: 1.2rem;
-}
-
-p, label, span, div {
-    color: #e2e8f0;
-}
-
-/* =========================
-   SIDEBAR
-========================= */
 
 section[data-testid="stSidebar"] {
-    background:
-        linear-gradient(180deg, rgba(2, 6, 23, 0.98), rgba(15, 23, 42, 0.96)),
-        radial-gradient(circle at top, rgba(37, 99, 235, 0.28), transparent 40%);
-    border-right: 1px solid rgba(56, 189, 248, 0.25);
-    box-shadow: 12px 0px 45px rgba(0,0,0,0.38);
+    background: linear-gradient(180deg, #020617 0%, #0f172a 100%);
+    border-right: 1px solid rgba(148, 163, 184, 0.25);
 }
-
-section[data-testid="stSidebar"] img {
-    border-radius: 18px;
-    box-shadow: none;
-}
-
-section[data-testid="stSidebar"] h1,
-section[data-testid="stSidebar"] h2,
-section[data-testid="stSidebar"] h3,
-section[data-testid="stSidebar"] p,
-section[data-testid="stSidebar"] span {
-    color: #f8fafc !important;
-}
-
-/* =========================
-   HERO SECTION
-========================= */
 
 .hero {
-    background:
-        linear-gradient(135deg, rgba(15, 23, 42, 0.35), rgba(37, 99, 235, 0.72), rgba(6, 182, 212, 0.58)),
-        url("https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg");
-    background-size: cover;
-    background-position: center;
-    padding: 64px 54px;
-    border-radius: 38px;
-    margin-bottom: 30px;
-    position: relative;
-    overflow: hidden;
-    border: 1px solid rgba(255,255,255,0.25);
-    box-shadow:
-        0px 28px 80px rgba(37, 99, 235, 0.35),
-        inset 0px 1px 0px rgba(255,255,255,0.22);
-}
-
-.hero::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background:
-        linear-gradient(90deg, rgba(2, 6, 23, 0.72), rgba(2, 6, 23, 0.12));
-    z-index: 0;
-}
-
-.hero::after {
-    content: "";
-    position: absolute;
-    top: -100px;
-    right: -80px;
-    width: 280px;
-    height: 280px;
-    background: rgba(255,255,255,0.14);
-    border-radius: 50%;
-    filter: blur(2px);
-}
-
-.hero-title,
-.hero-subtitle {
-    position: relative;
-    z-index: 1;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.95), rgba(14, 165, 233, 0.9), rgba(16, 185, 129, 0.75));
+    padding: 46px;
+    border-radius: 30px;
+    color: white;
+    margin-bottom: 25px;
+    box-shadow: 0px 18px 50px rgba(37, 99, 235, 0.35);
+    border: 1px solid rgba(255,255,255,0.22);
 }
 
 .hero-title {
-    font-size: 62px;
-    font-weight: 950;
-    margin-bottom: 16px;
+    font-size: 48px;
+    font-weight: 900;
+    margin-bottom: 10px;
     color: white !important;
-    letter-spacing: -2px;
-    line-height: 1.02;
-    text-shadow: 0px 5px 22px rgba(0,0,0,0.35);
-    word-break: keep-all !important;
-    overflow-wrap: normal !important;
-    hyphens: none !important;
-}
-
-.no-break-word {
-    white-space: nowrap !important;
-    display: inline-block;
+    letter-spacing: -1px;
 }
 
 .hero-subtitle {
-    font-size: 21px;
+    font-size: 19px;
     color: #e0f2fe !important;
-    line-height: 1.65;
-    max-width: 820px;
-    text-shadow: 0px 2px 12px rgba(0,0,0,0.28);
+    line-height: 1.55;
 }
 
-/* =========================
-   DISCLAIMER
-========================= */
-
 .disclaimer {
-    background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(249, 115, 22, 0.10));
-    padding: 20px 22px;
-    border-radius: 22px;
-    border: 1px solid rgba(251, 191, 36, 0.35);
-    border-left: 7px solid #f59e0b;
+    background: rgba(251, 191, 36, 0.12);
+    padding: 18px;
+    border-radius: 18px;
+    border-left: 6px solid #f59e0b;
     color: #fde68a !important;
-    margin-bottom: 24px;
-    box-shadow: 0px 16px 38px rgba(0,0,0,0.25);
-    backdrop-filter: blur(14px);
+    margin-bottom: 18px;
+    box-shadow: 0px 8px 25px rgba(0,0,0,0.18);
 }
 
 .disclaimer b {
     color: #facc15 !important;
 }
 
-/* =========================
-   GLASS MODULE CARDS
-========================= */
-
 .module-box {
-    background:
-        linear-gradient(180deg, rgba(15, 23, 42, 0.88), rgba(30, 41, 59, 0.66));
-    border: 1px solid rgba(148, 163, 184, 0.26);
-    border-radius: 30px;
-    padding: 28px;
-    box-shadow:
-        0px 20px 45px rgba(0,0,0,0.36),
-        inset 0px 1px 0px rgba(255,255,255,0.08);
-    min-height: 200px;
-    backdrop-filter: blur(18px);
-    transition: all 0.26s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.module-box::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 5px;
-    background: linear-gradient(90deg, #2563eb, #06b6d4, #22c55e, #a855f7);
-}
-
-.module-box::after {
-    content: "";
-    position: absolute;
-    top: -70px;
-    right: -70px;
-    width: 150px;
-    height: 150px;
-    background: rgba(56, 189, 248, 0.10);
-    border-radius: 50%;
-    filter: blur(3px);
+    background: rgba(15, 23, 42, 0.82);
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: 0px 12px 35px rgba(0,0,0,0.28);
+    min-height: 180px;
+    backdrop-filter: blur(12px);
+    transition: 0.25s ease;
 }
 
 .module-box:hover {
-    transform: translateY(-9px) scale(1.015);
-    border: 1px solid rgba(56, 189, 248, 0.75);
-    box-shadow:
-        0px 28px 70px rgba(56, 189, 248, 0.25),
-        inset 0px 1px 0px rgba(255,255,255,0.14);
+    transform: translateY(-5px);
+    border: 1px solid rgba(56, 189, 248, 0.65);
+    box-shadow: 0px 18px 45px rgba(56, 189, 248, 0.22);
 }
 
 .card-title {
-    font-size: 25px;
-    font-weight: 900;
+    font-size: 23px;
+    font-weight: 850;
     color: #ffffff !important;
-    margin-bottom: 13px;
-    letter-spacing: -0.3px;
+    margin-bottom: 10px;
 }
 
 .card-text {
-    font-size: 16px;
+    font-size: 15.8px;
     color: #cbd5e1 !important;
-    line-height: 1.7;
+    line-height: 1.55;
 }
-
-/* =========================
-   DETAIL PAGE
-========================= */
 
 .detail-box {
-    background:
-        radial-gradient(circle at top left, rgba(37, 99, 235, 0.33), transparent 42%),
-        linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(30, 41, 59, 0.9));
-    padding: 40px;
-    border-radius: 34px;
-    border: 1px solid rgba(56, 189, 248, 0.42);
-    box-shadow:
-        0px 24px 68px rgba(0,0,0,0.42),
-        inset 0px 1px 0px rgba(255,255,255,0.09);
-    margin-bottom: 30px;
-    position: relative;
-    overflow: hidden;
-}
-
-.detail-box::after {
-    content: "";
-    position: absolute;
-    width: 240px;
-    height: 240px;
-    right: -90px;
-    bottom: -110px;
-    background: rgba(16, 185, 129, 0.13);
-    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.9));
+    padding: 32px;
+    border-radius: 28px;
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    box-shadow: 0px 18px 45px rgba(0,0,0,0.32);
+    margin-bottom: 24px;
 }
 
 .detail-title {
-    font-size: 48px;
-    font-weight: 950;
+    font-size: 42px;
+    font-weight: 900;
     color: #ffffff !important;
-    margin-bottom: 12px;
-    letter-spacing: -1.3px;
+    margin-bottom: 8px;
 }
 
 .detail-subtitle {
-    font-size: 18px;
+    font-size: 17px;
     color: #bae6fd !important;
-    line-height: 1.65;
+    line-height: 1.5;
 }
-
-/* =========================
-   METRICS
-========================= */
-
-/* =========================
-   METRICS - CLEANER SIZE
-========================= */
 
 [data-testid="stMetric"] {
-    background:
-        linear-gradient(180deg, rgba(15, 23, 42, 0.88), rgba(30, 41, 59, 0.72));
-    padding: 18px 20px;
-    border-radius: 22px;
-    border: 1px solid rgba(56, 189, 248, 0.22);
-    box-shadow:
-        0px 12px 30px rgba(0,0,0,0.25),
-        inset 0px 1px 0px rgba(255,255,255,0.06);
-    backdrop-filter: blur(12px);
-    min-height: 120px;
+    background: rgba(15, 23, 42, 0.86);
+    padding: 20px;
+    border-radius: 20px;
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    box-shadow: 0px 10px 28px rgba(0,0,0,0.24);
 }
 
-[data-testid="stMetricLabel"] {
-    color: #93c5fd !important;
-    font-weight: 700 !important;
-    font-size: 15px !important;
-}
-
-[data-testid="stMetricValue"] {
-    color: #ffffff !important;
-    font-weight: 850 !important;
-    font-size: 30px !important;
-    line-height: 1.1 !important;
-    white-space: normal !important;
-}
-
-/* =========================
-   FORMS
-========================= */
-
-.stTextInput input,
-.stTextArea textarea {
-    background: rgba(15, 23, 42, 0.94) !important;
+.stTextInput input, .stTextArea textarea {
+    background-color: #111827 !important;
     color: #f8fafc !important;
-    border-radius: 18px !important;
-    border: 1px solid rgba(148, 163, 184, 0.38) !important;
-    box-shadow: inset 0px 1px 0px rgba(255,255,255,0.06);
-}
-
-.stTextInput input:focus,
-.stTextArea textarea:focus {
-    border: 1px solid #38bdf8 !important;
-    box-shadow: 0px 0px 0px 3px rgba(56,189,248,0.20) !important;
+    border-radius: 14px !important;
+    border: 1px solid #334155 !important;
 }
 
 .stSelectbox div[data-baseweb="select"] {
-    background: rgba(15, 23, 42, 0.94) !important;
+    background-color: #111827 !important;
     color: #f8fafc !important;
-    border-radius: 18px !important;
-    border: 1px solid rgba(148, 163, 184, 0.38) !important;
+    border-radius: 14px !important;
+    border: 1px solid #334155 !important;
 }
-
-.stCheckbox label {
-    color: #e2e8f0 !important;
-}
-
-/* =========================
-   BUTTONS
-========================= */
-
-/* =========================
-   BUTTONS - MORE PREMIUM LESS BRIGHT
-========================= */
 
 .stButton > button {
-    background: linear-gradient(135deg, #1e40af, #0f766e);
+    background: linear-gradient(135deg, #2563eb, #06b6d4);
     color: white !important;
-    border: 1px solid rgba(148, 163, 184, 0.25);
-    border-radius: 16px;
-    padding: 0.72rem 1.05rem;
-    font-weight: 800;
-    transition: all 0.22s ease;
-    box-shadow: 0px 8px 22px rgba(15, 23, 42, 0.45);
+    border: none;
+    border-radius: 14px;
+    padding: 0.65rem 1rem;
+    font-weight: 750;
+    transition: 0.2s ease;
+    box-shadow: 0px 8px 22px rgba(37, 99, 235, 0.35);
 }
 
 .stButton > button:hover {
     transform: translateY(-2px);
-    background: linear-gradient(135deg, #1d4ed8, #0f766e);
-    border: 1px solid rgba(56, 189, 248, 0.35);
-    box-shadow: 0px 12px 30px rgba(15, 23, 42, 0.55);
+    background: linear-gradient(135deg, #1d4ed8, #0891b2);
+    box-shadow: 0px 12px 30px rgba(56, 189, 248, 0.35);
 }
-
-.stFormSubmitButton > button {
-    background: linear-gradient(135deg, #166534, #0f766e) !important;
-    color: white !important;
-    border-radius: 16px !important;
-    font-weight: 850 !important;
-    border: 1px solid rgba(148, 163, 184, 0.25) !important;
-    padding: 0.75rem 1.1rem !important;
-    box-shadow: 0px 10px 24px rgba(15, 23, 42, 0.45);
-}
-
-.stFormSubmitButton > button:hover {
-    transform: translateY(-2px);
-    background: linear-gradient(135deg, #15803d, #0f766e) !important;
-    box-shadow: 0px 14px 32px rgba(15, 23, 42, 0.55);
-}
-
-/* =========================
-   IMAGES
-========================= */
 
 img {
-    border-radius: 30px;
-    box-shadow:
-        0px 18px 44px rgba(0,0,0,0.32),
-        inset 0px 1px 0px rgba(255,255,255,0.08);
-}
-
-/* =========================
-   ALERTS / INFO BOXES
-========================= */
-
-div[data-testid="stAlert"] {
     border-radius: 22px;
-    border: 1px solid rgba(56, 189, 248, 0.28);
-    box-shadow: 0px 14px 34px rgba(0,0,0,0.25);
 }
-
-/* =========================
-   DIVIDERS / CAPTIONS
-========================= */
 
 hr {
-    border-color: rgba(148, 163, 184, 0.22);
-    margin-top: 2.2rem;
-    margin-bottom: 2.2rem;
+    border-color: rgba(148, 163, 184, 0.25);
 }
-
-.stCaption,
-caption {
-    color: #94a3b8 !important;
-}
-
-/* =========================
-   MOBILE RESPONSIVE
-========================= */
-
-@media (max-width: 768px) {
-    .hero-title {
-        font-size: 40px;
-    }
-
-    .hero {
-        padding: 34px;
-    }
-
-    .detail-title {
-        font-size: 34px;
-    }
-
-    .module-box {
-        min-height: auto;
-    }
-}
-
 </style>
 """, unsafe_allow_html=True)
+
 
 # =====================================================
 # HELPER FUNCTIONS
@@ -508,7 +225,7 @@ def load_counts():
     return total, org_count
 
 
-def language_selector(key):
+def preferred_language_input(key):
     language_options = [
         "English",
         "Mandarin Chinese",
@@ -528,24 +245,28 @@ def language_selector(key):
         "Other"
     ]
 
-    selected = st.selectbox(
+    selected_language = st.selectbox(
         "Preferred Language",
         language_options,
         key=f"{key}_language_select"
     )
 
-    if selected == "Other":
-        typed_language = st.text_input(
+    if selected_language == "Other":
+        custom_language = st.text_input(
             "Please type your preferred language",
             key=f"{key}_language_other",
             placeholder="Example: Greek, Italian, Punjabi, Nepali"
         )
-        return typed_language.strip()
 
-    return selected
+        if custom_language.strip():
+            return custom_language.strip()
+
+        return ""
+
+    return selected_language
 
 
-def sport_selector(key):
+def sport_interest_input(key):
     sport_options = [
         "Gym / Fitness",
         "Running",
@@ -563,21 +284,25 @@ def sport_selector(key):
         "Other"
     ]
 
-    selected = st.selectbox(
+    selected_sport = st.selectbox(
         "Sport / Fitness Interest",
         sport_options,
         key=f"{key}_sport_select"
     )
 
-    if selected == "Other":
-        typed_sport = st.text_input(
+    if selected_sport == "Other":
+        custom_sport = st.text_input(
             "Please type your sport or fitness interest",
             key=f"{key}_sport_other",
             placeholder="Example: Volleyball, cricket, dance, hiking"
         )
-        return typed_sport.strip()
 
-    return selected
+        if custom_sport.strip():
+            return custom_sport.strip()
+
+        return ""
+
+    return selected_sport
 
 
 def module_card(icon, title, text, button_label, page_name, key):
@@ -618,6 +343,9 @@ with st.sidebar:
 
     if st.button("🤖 AI & Gamification Plan", use_container_width=True):
         go_to("AI Gamification")
+    
+    if st.button("🔒 Admin Dashboard", use_container_width=True):
+        go_to("Admin Dashboard")
 
     st.divider()
     st.caption("Developed by Hoe Weng Lee")
@@ -651,9 +379,8 @@ if st.session_state.page == "Home":
     with left:
         st.markdown("""
         <div class="hero">
-            <div class="hero-title">  CIRC+ Digital<br>
-               Education Platform</div>
-            <div class="hero-subtitle"> 
+            <div class="hero-title">Fuel Knowledge. Train Smarter.</div>
+            <div class="hero-subtitle">
                 A sports-tech education platform for CIRC+, nitric oxide awareness,
                 multilingual learning, seminar registration, AI engagement and
                 data-driven community outreach.
@@ -971,13 +698,14 @@ elif st.session_state.page == "Individual Registration":
     st.header("Register Interest for Sports Nutrition Seminar")
     st.write("Please complete the form below.")
 
-    final_language = language_selector("individual")
-    sport = sport_selector("individual")
-
     with st.form("individual_registration_form"):
         name = st.text_input("Full Name")
         email = st.text_input("Email Address")
         phone = st.text_input("Phone Number")
+
+        final_language = preferred_language_input("individual")
+        sport = sport_interest_input("individual")
+
         notes = st.text_area("What would you like to learn about?")
 
         consent = st.checkbox(
@@ -990,9 +718,9 @@ elif st.session_state.page == "Individual Registration":
             if not name or not email:
                 st.error("Please enter your name and email.")
             elif not final_language:
-                st.error("Please type your preferred language because you selected Other.")
+                st.error("Please select or type your preferred language.")
             elif not sport:
-                st.error("Please type your sport / fitness interest because you selected Other.")
+                st.error("Please select or type your sport / fitness interest.")
             elif not consent:
                 st.error("Please tick the consent box before submitting.")
             else:
@@ -1025,15 +753,15 @@ elif st.session_state.page == "Organisation Registration":
         "interested in free sports nutrition and nitric oxide education."
     )
 
-    sport_type = sport_selector("organisation")
-    org_language = language_selector("organisation")
-
     with st.form("organisation_interest_form"):
         organisation_name = st.text_input("Organisation / Club Name")
         contact_person = st.text_input("Contact Person")
         contact_role = st.text_input("Role / Position")
         org_email = st.text_input("Contact Email")
         org_phone = st.text_input("Contact Phone")
+
+        sport_type = sport_interest_input("organisation")
+        org_language = preferred_language_input("organisation")
 
         seminar_interest = st.selectbox(
             "Type of Interest",
@@ -1058,9 +786,9 @@ elif st.session_state.page == "Organisation Registration":
             if not organisation_name or not contact_person or not org_email:
                 st.error("Please enter organisation name, contact person and email.")
             elif not sport_type:
-                st.error("Please type the sport / community type because you selected Other.")
+                st.error("Please select or type the sport / community type.")
             elif not org_language:
-                st.error("Please type the preferred language because you selected Other.")
+                st.error("Please select or type the preferred language.")
             elif not consent:
                 st.error("Please tick the consent box before submitting.")
             else:
@@ -1132,7 +860,81 @@ The quiz will help users check basic sports nutrition knowledge and receive simp
             use_container_width=True
         )
 
+elif st.session_state.page == "Admin Dashboard":
+    st.header("🔒 Admin Dashboard")
+    st.write("This page is password protected and only for viewing registration records.")
 
+    try:
+        admin_password = st.secrets["ADMIN_PASSWORD"]
+    except Exception:
+        st.error("Admin password is not configured yet.")
+        st.info("Please add ADMIN_PASSWORD in Streamlit Secrets.")
+        st.stop()
+
+    if "admin_logged_in" not in st.session_state:
+        st.session_state.admin_logged_in = False
+
+    if not st.session_state.admin_logged_in:
+        password_input = st.text_input("Enter admin password", type="password")
+
+        if st.button("Login"):
+            if password_input == admin_password:
+                st.session_state.admin_logged_in = True
+                st.success("Login successful.")
+                st.rerun()
+            else:
+                st.error("Incorrect password.")
+
+        st.stop()
+
+    if st.button("Log out"):
+        st.session_state.admin_logged_in = False
+        st.rerun()
+
+    st.divider()
+
+    conn = sqlite3.connect("registrations.db")
+
+    try:
+        df = pd.read_sql_query(
+            "SELECT * FROM registrations ORDER BY created_at DESC",
+            conn
+        )
+    except Exception:
+        df = pd.DataFrame()
+
+    conn.close()
+
+    st.subheader("Registration Overview")
+
+    if df.empty:
+        st.warning("No registrations found yet.")
+    else:
+        total_records = len(df)
+
+        if "organisation_name" in df.columns:
+            organisation_records = df["organisation_name"].fillna("").astype(str).str.strip().ne("").sum()
+        else:
+            organisation_records = 0
+
+        individual_records = total_records - organisation_records
+
+        c1, c2, c3 = st.columns(3)
+        c1.metric("Total Registrations", total_records)
+        c2.metric("Individual Registrations", individual_records)
+        c3.metric("Organisation Leads", organisation_records)
+
+        st.subheader("Registration Records")
+        st.dataframe(df, use_container_width=True)
+
+        csv = df.to_csv(index=False).encode("utf-8")
+
+        st.download_button(
+            label="Download Registrations as CSV",
+            data=csv,
+            file_name="circ_plus_registrations.csv",
+            mime="text/csv"
+        )
 # =====================================================
 # FOOTER
 # =====================================================
@@ -1144,3 +946,4 @@ st.caption(
     "Bachelor of Software Engineering (Artificial Intelligence) | "
     "ATW306 Work Integrated Learning"
 )
+# force redeploy admin dashboard
