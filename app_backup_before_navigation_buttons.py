@@ -68,26 +68,9 @@ st.set_page_config(
 if "page" not in st.session_state:
     st.session_state.page = "Home"
 
-if "previous_page" not in st.session_state:
-    st.session_state.previous_page = "Home"
-
 
 def go_to(page_name):
-    if st.session_state.page != page_name:
-        st.session_state.previous_page = st.session_state.page
-
     st.session_state.page = page_name
-    st.rerun()
-
-
-def go_back():
-    previous_page = st.session_state.get("previous_page", "Home")
-
-    if previous_page == st.session_state.page:
-        previous_page = "Home"
-
-    st.session_state.page = previous_page
-    st.session_state.previous_page = "Home"
     st.rerun()
 
 
@@ -470,24 +453,6 @@ with col_title:
 
 
 # =====================================================
-# PAGE NAVIGATION BUTTONS
-# =====================================================
-
-if st.session_state.page != "Home":
-    nav1, nav2, nav3 = st.columns([1, 1, 5])
-
-    with nav1:
-        if st.button("← Back", key=f"back_button_{st.session_state.page}", use_container_width=True):
-            go_back()
-
-    with nav2:
-        if st.button("🏠 Home", key=f"home_button_{st.session_state.page}", use_container_width=True):
-            go_to("Home")
-
-    st.divider()
-
-
-# =====================================================
 # HOME PAGE
 # =====================================================
 
@@ -500,8 +465,8 @@ if st.session_state.page == "Home":
             <div class="hero-title">Fuel Knowledge. Train Smarter.</div>
             <div class="hero-subtitle">
                 A sports-tech education platform for CIRC+, nitric oxide awareness,
-                sports nutrition learning, seminar registration, athlete evidence,
-                AI engagement and community outreach.
+                multilingual learning, seminar registration, AI engagement and
+                data-driven community outreach.
             </div>
         </div>
         """, unsafe_allow_html=True)
@@ -527,75 +492,6 @@ if st.session_state.page == "Home":
     c4.metric("Project Stage", "Stage 1")
 
     st.caption(f"Traffic source detected: {source}")
-
-    st.divider()
-
-    st.header("Quick Access")
-    st.write("All main website sections are available below, the same as the sidebar navigation.")
-
-    q1, q2, q3 = st.columns(3)
-
-    with q1:
-        module_card(
-            "📚",
-            "Education Modules",
-            "Open the main learning area, including the larger Nitric Oxide module and supporting education topics.",
-            "Open Education Modules",
-            "Education",
-            "home_quick_education"
-        )
-
-    with q2:
-        module_card(
-            "📝",
-            "Individual Registration",
-            "Register interest as an individual for sports nutrition and nitric oxide education.",
-            "Register as Individual",
-            "Individual Registration",
-            "home_quick_individual"
-        )
-
-    with q3:
-        module_card(
-            "🏟️",
-            "Sports Organisation Form",
-            "Submit interest as a sports club, gym, university group or community organisation.",
-            "Register Organisation",
-            "Organisation Registration",
-            "home_quick_organisation"
-        )
-
-    q4, q5, q6 = st.columns(3)
-
-    with q4:
-        module_card(
-            "🤖",
-            "AI & Gamification Plan",
-            "View the future chatbot and gamified quiz plan for user education engagement.",
-            "View AI Plan",
-            "AI Gamification",
-            "home_quick_ai"
-        )
-
-    with q5:
-        module_card(
-            "🏅",
-            "Athlete Trust & Sport Evidence",
-            "View athlete evidence, professional sport partnerships, safety reminders and nitric oxide supplement education.",
-            "Open Sport Evidence",
-            "Athlete Evidence",
-            "home_quick_athlete"
-        )
-
-    with q6:
-        module_card(
-            "🔒",
-            "Admin Dashboard",
-            "Password-protected area for viewing registration records and downloading CSV data.",
-            "Open Admin Dashboard",
-            "Admin Dashboard",
-            "home_quick_admin"
-        )
 
     st.divider()
 
@@ -631,220 +527,6 @@ if st.session_state.page == "Home":
         st.write("Helps users learn about hydration, nutrition, recovery and nitric oxide awareness.")
 
     st.divider()
-
-    st.header("Main Education Focus")
-    st.write("Nitric Oxide is the main learning focus of this platform.")
-
-    st.markdown("""
-    <div style="
-        background: linear-gradient(135deg, rgba(14, 165, 233, 0.22), rgba(16, 185, 129, 0.18));
-        border: 2px solid rgba(56, 189, 248, 0.75);
-        border-radius: 32px;
-        padding: 36px;
-        margin-bottom: 22px;
-        box-shadow: 0px 18px 45px rgba(56, 189, 248, 0.18);
-    ">
-        <div style="font-size: 42px; font-weight: 900; color: white; margin-bottom: 12px;">
-            🩸 Nitric Oxide Education
-        </div>
-        <div style="font-size: 19px; color: #cbd5e1; line-height: 1.6;">
-            Learn how dietary nitrate, nitric oxide awareness, blood flow, oxygen delivery,
-            circulation and sports nutrition education connect with active lifestyle learning.
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    if st.button("Learn More About Nitric Oxide", key="home_main_no_shortcut", use_container_width=True):
-        go_to("Nitric Oxide")
-
-    st.divider()
-
-    st.header("Supporting Education Modules")
-
-    m1, m2, m3 = st.columns(3)
-
-    with m1:
-        module_card(
-            "💧",
-            "Hydration",
-            "Learn why hydration awareness matters for sport, training and recovery.",
-            "Learn More",
-            "Hydration",
-            "home_support_hydration_final"
-        )
-
-    with m2:
-        module_card(
-            "🏃",
-            "Exercise Performance",
-            "Explore how nutrition, routine and recovery relate to physical activity.",
-            "Learn More",
-            "Performance",
-            "home_support_performance_final"
-        )
-
-    with m3:
-        module_card(
-            "❤️",
-            "Circulation",
-            "General education about circulation, oxygen delivery and active living.",
-            "Learn More",
-            "Circulation",
-            "home_support_circulation_final"
-        )
-
-    m4, m5 = st.columns(2)
-
-    with m4:
-        module_card(
-            "🔄",
-            "Recovery",
-            "Understand basic recovery concepts after exercise or training.",
-            "Learn More",
-            "Recovery",
-            "home_support_recovery_final"
-        )
-
-    with m5:
-        module_card(
-            "🌏",
-            "Multilingual Learning",
-            "Supports users from different cultural and language backgrounds.",
-            "Learn More",
-            "Multilingual",
-            "home_support_multilingual_final"
-        )
-
-
-
-    st.divider()
-
-    st.header("Registration and Engagement")
-    st.write("Users can register as individuals or submit interest on behalf of a sports club, gym or organisation.")
-
-    r1, r2 = st.columns(2)
-
-    with r1:
-        st.markdown("""
-        <div class="module-box">
-            <div class="card-title">📝 Individual Registration</div>
-            <div class="card-text">
-                For users who want to register interest in sports nutrition, nitric oxide education,
-                seminars and future learning updates.
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-
-        if st.button("Open Individual Registration", key="home_full_individual_register", use_container_width=True):
-            go_to("Individual Registration")
-
-    with r2:
-        st.markdown("""
-        <div class="module-box">
-            <div class="card-title">🏟️ Sports Organisation Form</div>
-            <div class="card-text">
-                For sports clubs, gyms, university sport groups and community organisations
-                interested in education sessions or sharing the platform with members.
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-
-        if st.button("Open Organisation Form", key="home_full_org_register", use_container_width=True):
-            go_to("Organisation Registration")
-
-    st.divider()
-
-    st.header("Athlete Trust and Sport Evidence")
-    st.write("This section explains athlete confidence, sport partnerships, supplement safety and nitric oxide education evidence.")
-
-    e1, e2 = st.columns([1.1, 1])
-
-    with e1:
-        st.markdown("""
-        <div class="module-box">
-            <div class="card-title">🏅 Athlete Trust & Sport Evidence</div>
-            <div class="card-text">
-                Explore athlete guarantee information, professional athlete network examples,
-                South Sydney Rabbitohs partnership evidence, athlete safety reminders and nitric oxide supplement education.
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-
-        if st.button("Open Athlete Trust & Sport Evidence", key="home_full_athlete_evidence", use_container_width=True):
-            go_to("Athlete Evidence")
-
-    with e2:
-        st.image("athlete_safety_check.png", caption="Supplement safety and athlete education", use_container_width=True)
-
-    st.divider()
-
-    st.header("Future Digital Engagement")
-    st.write("The project also includes future planning for AI education support and gamified learning.")
-
-    a1, a2 = st.columns(2)
-
-    with a1:
-        st.markdown("""
-        <div class="module-box">
-            <div class="card-title">🤖 AI & Gamification Plan</div>
-            <div class="card-text">
-                Future chatbot and quiz features will support personalised learning,
-                multilingual education and user engagement.
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-
-        if st.button("View AI & Gamification Plan", key="home_full_ai_plan", use_container_width=True):
-            go_to("AI Gamification")
-
-    with a2:
-        st.markdown("""
-        <div class="module-box">
-            <div class="card-title">🔒 Admin Dashboard</div>
-            <div class="card-text">
-                Password-protected dashboard for viewing registrations, organisation leads
-                and downloading collected records as CSV.
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-
-        if st.button("Open Admin Dashboard", key="home_full_admin_dashboard", use_container_width=True):
-            go_to("Admin Dashboard")
-
-    st.divider()
-
-    st.markdown("""
-    <div style="
-        background: linear-gradient(135deg, rgba(37, 99, 235, 0.28), rgba(6, 182, 212, 0.22));
-        border: 1px solid rgba(56, 189, 248, 0.5);
-        border-radius: 28px;
-        padding: 32px;
-        text-align: center;
-        margin-top: 25px;
-        margin-bottom: 25px;
-    ">
-        <div style="font-size: 36px; font-weight: 900; color: white;">
-            Ready to Learn More?
-        </div>
-        <div style="font-size: 18px; color: #cbd5e1; margin-top: 10px;">
-            Start with Nitric Oxide education, register your interest, or explore athlete evidence.
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    cta1, cta2, cta3 = st.columns(3)
-
-    with cta1:
-        if st.button("🩸 Learn About Nitric Oxide", key="home_bottom_no", use_container_width=True):
-            go_to("Nitric Oxide")
-
-    with cta2:
-        if st.button("📝 Register Interest", key="home_bottom_register", use_container_width=True):
-            go_to("Individual Registration")
-
-    with cta3:
-        if st.button("🏅 View Sport Evidence", key="home_bottom_evidence", use_container_width=True):
-            go_to("Athlete Evidence")
 
 
 # =====================================================

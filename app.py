@@ -68,15 +68,33 @@ st.set_page_config(
 if "page" not in st.session_state:
     st.session_state.page = "Home"
 
+if "previous_page" not in st.session_state:
+    st.session_state.previous_page = "Home"
+
 
 def go_to(page_name):
+    if st.session_state.page != page_name:
+        st.session_state.previous_page = st.session_state.page
+
     st.session_state.page = page_name
+    st.rerun()
+
+
+def go_back():
+    previous_page = st.session_state.get("previous_page", "Home")
+
+    if previous_page == st.session_state.page:
+        previous_page = "Home"
+
+    st.session_state.page = previous_page
+    st.session_state.previous_page = "Home"
     st.rerun()
 
 
 # =====================================================
 # STYLE
 # =====================================================
+
 
 st.markdown("""
 <style>
@@ -235,6 +253,40 @@ img {
 hr {
     border-color: rgba(148, 163, 184, 0.25);
 }
+
+/* Attractive Expander / Clickable Evidence Boxes */
+div[data-testid="stExpander"] {
+    background: rgba(15, 23, 42, 0.92) !important;
+    border: 1px solid rgba(56, 189, 248, 0.35) !important;
+    border-radius: 22px !important;
+    margin-bottom: 20px !important;
+    box-shadow: 0px 12px 30px rgba(0,0,0,0.25) !important;
+    transition: 0.25s ease !important;
+}
+
+div[data-testid="stExpander"]:hover {
+    transform: translateY(-3px);
+    border: 1px solid rgba(56, 189, 248, 0.8) !important;
+    box-shadow: 0px 16px 38px rgba(56, 189, 248, 0.22) !important;
+}
+
+div[data-testid="stExpander"] details summary {
+    padding: 22px 26px !important;
+}
+
+div[data-testid="stExpander"] details summary p {
+    font-size: 28px !important;
+    font-weight: 900 !important;
+    color: #ffffff !important;
+    letter-spacing: 0.2px !important;
+}
+
+div[data-testid="stExpander"] svg {
+    width: 24px !important;
+    height: 24px !important;
+    color: #38bdf8 !important;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -371,7 +423,7 @@ total_registrations, organisation_count = load_counts()
 # =====================================================
 
 with st.sidebar:
-    st.image("usana_logo.jpg", width=150)
+    st.image("usana_logo.jpg", width=300)
     st.title("CIRC+ Platform")
 
     if st.button("🏠 Home", use_container_width=True):
@@ -388,6 +440,9 @@ with st.sidebar:
 
     if st.button("🤖 AI & Gamification Plan", use_container_width=True):
         go_to("AI Gamification")
+
+    if st.button("🏅 Athlete Trust & Sport Evidence", use_container_width=True):
+        go_to("Athlete Evidence")
     
     if st.button("🔒 Admin Dashboard", use_container_width=True):
         go_to("Admin Dashboard")
@@ -404,7 +459,7 @@ with st.sidebar:
 col_logo, col_title = st.columns([1, 5])
 
 with col_logo:
-    st.image("usana_logo.jpg", width=120)
+    st.image("usana_logo.jpg", width=300)
 
 with col_title:
     st.title("CIRC+ Sports Nutrition Education Platform")
@@ -412,6 +467,24 @@ with col_title:
         "Professional digital platform for sports nutrition education, nitric oxide awareness, "
         "seminar registration and sports community engagement."
     )
+
+
+# =====================================================
+# PAGE NAVIGATION BUTTONS
+# =====================================================
+
+if st.session_state.page != "Home":
+    nav1, nav2, nav3 = st.columns([1, 1, 5])
+
+    with nav1:
+        if st.button("← Back", key=f"back_button_{st.session_state.page}", use_container_width=True):
+            go_back()
+
+    with nav2:
+        if st.button("🏠 Home", key=f"home_button_{st.session_state.page}", use_container_width=True):
+            go_to("Home")
+
+    st.divider()
 
 
 # =====================================================
@@ -427,8 +500,8 @@ if st.session_state.page == "Home":
             <div class="hero-title">Fuel Knowledge. Train Smarter.</div>
             <div class="hero-subtitle">
                 A sports-tech education platform for CIRC+, nitric oxide awareness,
-                multilingual learning, seminar registration, AI engagement and
-                data-driven community outreach.
+                sports nutrition learning, seminar registration, athlete evidence,
+                AI engagement and community outreach.
             </div>
         </div>
         """, unsafe_allow_html=True)
@@ -454,6 +527,75 @@ if st.session_state.page == "Home":
     c4.metric("Project Stage", "Stage 1")
 
     st.caption(f"Traffic source detected: {source}")
+
+    st.divider()
+
+    st.header("Quick Access")
+    st.write("All main website sections are available below, the same as the sidebar navigation.")
+
+    q1, q2, q3 = st.columns(3)
+
+    with q1:
+        module_card(
+            "📚",
+            "Education Modules",
+            "Open the main learning area, including the larger Nitric Oxide module and supporting education topics.",
+            "Open Education Modules",
+            "Education",
+            "home_quick_education"
+        )
+
+    with q2:
+        module_card(
+            "📝",
+            "Individual Registration",
+            "Register interest as an individual for sports nutrition and nitric oxide education.",
+            "Register as Individual",
+            "Individual Registration",
+            "home_quick_individual"
+        )
+
+    with q3:
+        module_card(
+            "🏟️",
+            "Sports Organisation Form",
+            "Submit interest as a sports club, gym, university group or community organisation.",
+            "Register Organisation",
+            "Organisation Registration",
+            "home_quick_organisation"
+        )
+
+    q4, q5, q6 = st.columns(3)
+
+    with q4:
+        module_card(
+            "🤖",
+            "AI & Gamification Plan",
+            "View the future chatbot and gamified quiz plan for user education engagement.",
+            "View AI Plan",
+            "AI Gamification",
+            "home_quick_ai"
+        )
+
+    with q5:
+        module_card(
+            "🏅",
+            "Athlete Trust & Sport Evidence",
+            "View athlete evidence, professional sport partnerships, safety reminders and nitric oxide supplement education.",
+            "Open Sport Evidence",
+            "Athlete Evidence",
+            "home_quick_athlete"
+        )
+
+    with q6:
+        module_card(
+            "🔒",
+            "Admin Dashboard",
+            "Password-protected area for viewing registration records and downloading CSV data.",
+            "Open Admin Dashboard",
+            "Admin Dashboard",
+            "home_quick_admin"
+        )
 
     st.divider()
 
@@ -490,72 +632,219 @@ if st.session_state.page == "Home":
 
     st.divider()
 
-    st.header("Explore Education Modules")
-    st.write("Click a module below to open a detailed education page.")
+    st.header("Main Education Focus")
+    st.write("Nitric Oxide is the main learning focus of this platform.")
+
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, rgba(14, 165, 233, 0.22), rgba(16, 185, 129, 0.18));
+        border: 2px solid rgba(56, 189, 248, 0.75);
+        border-radius: 32px;
+        padding: 36px;
+        margin-bottom: 22px;
+        box-shadow: 0px 18px 45px rgba(56, 189, 248, 0.18);
+    ">
+        <div style="font-size: 42px; font-weight: 900; color: white; margin-bottom: 12px;">
+            🩸 Nitric Oxide Education
+        </div>
+        <div style="font-size: 19px; color: #cbd5e1; line-height: 1.6;">
+            Learn how dietary nitrate, nitric oxide awareness, blood flow, oxygen delivery,
+            circulation and sports nutrition education connect with active lifestyle learning.
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    if st.button("Learn More About Nitric Oxide", key="home_main_no_shortcut", use_container_width=True):
+        go_to("Nitric Oxide")
+
+    st.divider()
+
+    st.header("Supporting Education Modules")
 
     m1, m2, m3 = st.columns(3)
 
     with m1:
-        module_card(
-            "🩸",
-            "Nitric Oxide",
-            "Understand general nitric oxide awareness and its role in active lifestyle education.",
-            "Learn More",
-            "Nitric Oxide",
-            "home_no"
-        )
-
-    with m2:
         module_card(
             "💧",
             "Hydration",
             "Learn why hydration awareness matters for sport, training and recovery.",
             "Learn More",
             "Hydration",
-            "home_hydration"
+            "home_support_hydration_final"
         )
 
-    with m3:
+    with m2:
         module_card(
             "🏃",
             "Exercise Performance",
             "Explore how nutrition, routine and recovery relate to physical activity.",
             "Learn More",
             "Performance",
-            "home_performance"
+            "home_support_performance_final"
         )
 
-    m4, m5, m6 = st.columns(3)
-
-    with m4:
+    with m3:
         module_card(
             "❤️",
             "Circulation",
             "General education about circulation, oxygen delivery and active living.",
             "Learn More",
             "Circulation",
-            "home_circulation"
+            "home_support_circulation_final"
         )
 
-    with m5:
+    m4, m5 = st.columns(2)
+
+    with m4:
         module_card(
             "🔄",
             "Recovery",
             "Understand basic recovery concepts after exercise or training.",
             "Learn More",
             "Recovery",
-            "home_recovery"
+            "home_support_recovery_final"
         )
 
-    with m6:
+    with m5:
         module_card(
             "🌏",
             "Multilingual Learning",
             "Supports users from different cultural and language backgrounds.",
             "Learn More",
             "Multilingual",
-            "home_multilingual"
+            "home_support_multilingual_final"
         )
+
+
+
+    st.divider()
+
+    st.header("Registration and Engagement")
+    st.write("Users can register as individuals or submit interest on behalf of a sports club, gym or organisation.")
+
+    r1, r2 = st.columns(2)
+
+    with r1:
+        st.markdown("""
+        <div class="module-box">
+            <div class="card-title">📝 Individual Registration</div>
+            <div class="card-text">
+                For users who want to register interest in sports nutrition, nitric oxide education,
+                seminars and future learning updates.
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        if st.button("Open Individual Registration", key="home_full_individual_register", use_container_width=True):
+            go_to("Individual Registration")
+
+    with r2:
+        st.markdown("""
+        <div class="module-box">
+            <div class="card-title">🏟️ Sports Organisation Form</div>
+            <div class="card-text">
+                For sports clubs, gyms, university sport groups and community organisations
+                interested in education sessions or sharing the platform with members.
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        if st.button("Open Organisation Form", key="home_full_org_register", use_container_width=True):
+            go_to("Organisation Registration")
+
+    st.divider()
+
+    st.header("Athlete Trust and Sport Evidence")
+    st.write("This section explains athlete confidence, sport partnerships, supplement safety and nitric oxide education evidence.")
+
+    e1, e2 = st.columns([1.1, 1])
+
+    with e1:
+        st.markdown("""
+        <div class="module-box">
+            <div class="card-title">🏅 Athlete Trust & Sport Evidence</div>
+            <div class="card-text">
+                Explore athlete guarantee information, professional athlete network examples,
+                South Sydney Rabbitohs partnership evidence, athlete safety reminders and nitric oxide supplement education.
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        if st.button("Open Athlete Trust & Sport Evidence", key="home_full_athlete_evidence", use_container_width=True):
+            go_to("Athlete Evidence")
+
+    with e2:
+        st.image("athlete_safety_check.png", caption="Supplement safety and athlete education", use_container_width=True)
+
+    st.divider()
+
+    st.header("Future Digital Engagement")
+    st.write("The project also includes future planning for AI education support and gamified learning.")
+
+    a1, a2 = st.columns(2)
+
+    with a1:
+        st.markdown("""
+        <div class="module-box">
+            <div class="card-title">🤖 AI & Gamification Plan</div>
+            <div class="card-text">
+                Future chatbot and quiz features will support personalised learning,
+                multilingual education and user engagement.
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        if st.button("View AI & Gamification Plan", key="home_full_ai_plan", use_container_width=True):
+            go_to("AI Gamification")
+
+    with a2:
+        st.markdown("""
+        <div class="module-box">
+            <div class="card-title">🔒 Admin Dashboard</div>
+            <div class="card-text">
+                Password-protected dashboard for viewing registrations, organisation leads
+                and downloading collected records as CSV.
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        if st.button("Open Admin Dashboard", key="home_full_admin_dashboard", use_container_width=True):
+            go_to("Admin Dashboard")
+
+    st.divider()
+
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, rgba(37, 99, 235, 0.28), rgba(6, 182, 212, 0.22));
+        border: 1px solid rgba(56, 189, 248, 0.5);
+        border-radius: 28px;
+        padding: 32px;
+        text-align: center;
+        margin-top: 25px;
+        margin-bottom: 25px;
+    ">
+        <div style="font-size: 36px; font-weight: 900; color: white;">
+            Ready to Learn More?
+        </div>
+        <div style="font-size: 18px; color: #cbd5e1; margin-top: 10px;">
+            Start with Nitric Oxide education, register your interest, or explore athlete evidence.
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    cta1, cta2, cta3 = st.columns(3)
+
+    with cta1:
+        if st.button("🩸 Learn About Nitric Oxide", key="home_bottom_no", use_container_width=True):
+            go_to("Nitric Oxide")
+
+    with cta2:
+        if st.button("📝 Register Interest", key="home_bottom_register", use_container_width=True):
+            go_to("Individual Registration")
+
+    with cta3:
+        if st.button("🏅 View Sport Evidence", key="home_bottom_evidence", use_container_width=True):
+            go_to("Athlete Evidence")
 
 
 # =====================================================
@@ -564,18 +853,47 @@ if st.session_state.page == "Home":
 
 elif st.session_state.page == "Education":
     st.header("Education Modules")
-    st.write("Select a module below to open a detailed page.")
+    st.write(
+        "Nitric Oxide is the main education focus of this platform. "
+        "Other modules support general sports nutrition learning."
+    )
+
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, rgba(14, 165, 233, 0.22), rgba(16, 185, 129, 0.18));
+        border: 2px solid rgba(56, 189, 248, 0.75);
+        border-radius: 32px;
+        padding: 36px;
+        margin-bottom: 22px;
+        box-shadow: 0px 18px 45px rgba(56, 189, 248, 0.18);
+    ">
+        <div style="font-size: 42px; font-weight: 900; color: white; margin-bottom: 12px;">
+            🩸 Main Focus: Nitric Oxide Education
+        </div>
+        <div style="font-size: 19px; color: #cbd5e1; line-height: 1.6;">
+            Learn how dietary nitrate, nitric oxide awareness, blood flow, oxygen delivery,
+            circulation and sports nutrition education connect with active lifestyle learning.
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    if st.button("Open Main Nitric Oxide Module", key="edu_main_no_fixed", use_container_width=True):
+        go_to("Nitric Oxide")
+
+    st.divider()
+
+    st.subheader("Supporting Education Modules")
 
     col1, col2, col3 = st.columns(3)
 
     with col1:
         module_card(
-            "🩸",
-            "Nitric Oxide",
-            "General education about nitric oxide awareness.",
+            "💧",
+            "Hydration",
+            "Hydration awareness for active communities.",
             "Open Module",
-            "Nitric Oxide",
-            "edu_no"
+            "Hydration",
+            "edu_hydration_fixed"
         )
 
         module_card(
@@ -584,17 +902,17 @@ elif st.session_state.page == "Education":
             "Circulation and active lifestyle learning.",
             "Open Module",
             "Circulation",
-            "edu_circulation"
+            "edu_circulation_fixed"
         )
 
     with col2:
         module_card(
-            "💧",
-            "Hydration",
-            "Hydration awareness for active communities.",
+            "🏃",
+            "Performance",
+            "Nutrition, recovery and performance education.",
             "Open Module",
-            "Hydration",
-            "edu_hydration"
+            "Performance",
+            "edu_performance_fixed"
         )
 
         module_card(
@@ -603,26 +921,26 @@ elif st.session_state.page == "Education":
             "Basic recovery concepts after activity.",
             "Open Module",
             "Recovery",
-            "edu_recovery"
+            "edu_recovery_fixed"
         )
 
     with col3:
-        module_card(
-            "🏃",
-            "Performance",
-            "Nutrition, recovery and performance education.",
-            "Open Module",
-            "Performance",
-            "edu_performance"
-        )
-
         module_card(
             "🌏",
             "Multilingual",
             "Language access and inclusive education.",
             "Open Module",
             "Multilingual",
-            "edu_multilingual"
+            "edu_multilingual_fixed"
+        )
+
+        module_card(
+            "🏅",
+            "Athlete Trust",
+            "Athlete evidence, sport partnerships and supplement safety information.",
+            "Open Evidence",
+            "Athlete Evidence",
+            "edu_athlete_evidence_fixed"
         )
 
 
@@ -643,7 +961,7 @@ elif st.session_state.page in [
     content = {
         "Nitric Oxide": {
             "title": "🩸 Nitric Oxide Education",
-            "image": "https://images.pexels.com/photos/4167544/pexels-photo-4167544.jpeg",
+            "image": "nitric_oxide_no_bloodflow.png",
             "body": """
 Nitric oxide is commonly discussed in sport and wellness education because it is connected with circulation and oxygen delivery concepts.
 
@@ -719,21 +1037,116 @@ Users can select a common language or choose Other and type their preferred lang
         st.image(selected["image"], use_container_width=True)
 
     with right:
+           
         st.markdown(selected["body"])
+
+        if module != "Nitric Oxide":
+            st.info(
+                "Interested in learning more? Register for a seminar or submit an organisation interest form."
+            )
+
+            b1, b2 = st.columns(2)
+
+            with b1:
+                if st.button("Register as Individual", key=f"{module}_individual_register_top", use_container_width=True):
+                    go_to("Individual Registration")
+
+            with b2:
+                if st.button("Register Organisation Interest", key=f"{module}_organisation_register_top", use_container_width=True):
+                    go_to("Organisation Registration")
+
+    if module == "Nitric Oxide":
+        st.divider()
+
+        st.markdown("""
+        <div style="text-align: center; margin-top: 25px; margin-bottom: 25px;">
+            <div style="font-size: 42px; font-weight: 900; color: white;">
+                Nitric Oxide Learning Pathway
+            </div>
+            <div style="font-size: 18px; color: #bae6fd; margin-top: 8px;">
+                Key learning topics about nitrate, nitric oxide, blood flow and sports nutrition.
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        no1, no2, no3, no4 = st.columns(4)
+
+        with no1:
+            st.markdown("""
+            <div class="module-box">
+                <div class="card-title">🥬 1. Dietary Nitrate</div>
+                <div class="card-text">
+                    Learn how nitrate-rich foods such as beetroot, spinach, arugula and leafy greens
+                    are discussed in nitric oxide education.
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+
+        with no2:
+            st.markdown("""
+            <div class="module-box">
+                <div class="card-title">🧬 2. Nitrate to NO</div>
+                <div class="card-text">
+                    Understand the basic education pathway: dietary nitrate may convert to nitrite,
+                    then nitric oxide in the body.
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+
+        with no3:
+            st.markdown("""
+            <div class="module-box">
+                <div class="card-title">❤️ 3. Blood Flow</div>
+                <div class="card-text">
+                    Learn why nitric oxide is commonly connected with blood vessel relaxation,
+                    circulation awareness and oxygen delivery education.
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+
+        with no4:
+            st.markdown("""
+            <div class="module-box">
+                <div class="card-title">🏃 4. Sports Nutrition</div>
+                <div class="card-text">
+                    Explore how nitric oxide education connects with active lifestyle,
+                    exercise performance, recovery and sports nutrition learning.
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+
         st.info(
-            "Interested in learning more? Register for a seminar or submit an organisation interest form."
+            "Education only: This information is general and does not provide medical advice, diagnosis, treatment, or anti-doping guarantees."
         )
+
+        st.markdown("""
+        <div style="
+            background: rgba(30, 64, 175, 0.25);
+            border: 1px solid rgba(56, 189, 248, 0.45);
+            border-radius: 24px;
+            padding: 24px;
+            margin-top: 28px;
+            margin-bottom: 18px;
+            text-align: center;
+        ">
+            <div style="font-size: 26px; font-weight: 850; color: white;">
+                Interested in learning more about Nitric Oxide?
+            </div>
+            <div style="font-size: 17px; color: #cbd5e1; margin-top: 8px;">
+                Register your interest or submit an organisation enquiry below.
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
 
         b1, b2 = st.columns(2)
 
         with b1:
-            if st.button("Register as Individual", use_container_width=True):
+            if st.button("Register as Individual", key="no_individual_register_bottom", use_container_width=True):
                 go_to("Individual Registration")
 
         with b2:
-            if st.button("Register Organisation Interest", use_container_width=True):
+            if st.button("Register Organisation Interest", key="no_organisation_register_bottom", use_container_width=True):
                 go_to("Organisation Registration")
-
 
 # =====================================================
 # INDIVIDUAL REGISTRATION
@@ -1028,6 +1441,205 @@ elif st.session_state.page == "Admin Dashboard":
             file_name="circ_plus_registrations.csv",
             mime="text/csv"
         )
+
+# =====================================================
+# ATHLETE TRUST AND SPORT EVIDENCE SECTION
+# =====================================================
+
+elif st.session_state.page == "Athlete Evidence":
+    st.divider()
+
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, rgba(14, 165, 233, 0.16), rgba(16, 185, 129, 0.14));
+        border: 1px solid rgba(56, 189, 248, 0.45);
+        border-radius: 28px;
+        padding: 34px;
+        margin-top: 25px;
+        margin-bottom: 25px;
+        box-shadow: 0px 16px 38px rgba(0,0,0,0.25);
+    ">
+        <div style="font-size: 40px; font-weight: 900; color: white; margin-bottom: 10px;">
+            🏅 Athlete Trust & Sport Evidence
+        </div>
+        <div style="font-size: 18px; color: #cbd5e1; line-height: 1.6;">
+            Click each section below to learn more about athlete confidence, professional sport partnerships,
+            supplement safety and nitric oxide education.
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    with st.expander("✅ Athlete Guarantee Program"):
+        col_a, col_b = st.columns([1, 1.4])
+
+        with col_a:
+            st.image(
+                "https://images.pexels.com/photos/2280571/pexels-photo-2280571.jpeg",
+                caption="Athlete education and supplement confidence",
+                use_container_width=True
+            )
+
+        with col_b:
+            st.markdown("""
+            ### What this means
+
+            USANA states that it offers a banned-substance testing guarantee for eligible athletes.
+            This is used as athlete confidence evidence because professional athletes need to be careful
+            with supplement safety and banned-substance risk.
+
+            ### Important limitation
+
+            This does not mean all supplement risk is removed. Athletes still need to check batch testing,
+            product suitability and anti-doping requirements before using any supplement.
+
+            **Official source:**  
+            https://www.usana.com/ux/dotcom/en-us/athletes
+            """)
+
+    with st.expander("🌍 Professional Athlete Network"):
+        col_a, col_b = st.columns([1, 1.4])
+
+        with col_a:
+            st.image(
+                "https://images.pexels.com/photos/274422/pexels-photo-274422.jpeg",
+                caption="Professional athlete and sport nutrition education",
+                use_container_width=True
+            )
+
+        with col_b:
+            st.markdown("""
+            ### Professional athlete evidence
+
+            USANA reported that 284 sponsored athletes earned spots at the 2024 Summer Olympic
+            and Paralympic Games in Paris.
+
+            Public information also mentions athletes representing multiple countries and different sports.
+            This supports the wider sport nutrition and athlete education background of the platform.
+
+            ### Important limitation
+
+            This website does not claim these athletes personally use CIRC+ unless confirmed by an official source.
+
+            **Official source:**  
+            https://ir.usana.com/news-events/press-releases/detail/753/284-usana-sponsored-athletes-in-2024-summer-olympic-and
+            """)
+
+    with st.expander("🏉 South Sydney Rabbitohs Partnership"):
+        col_a, col_b = st.columns([1, 1.4])
+
+        with col_a:
+            st.image(
+                "https://images.pexels.com/photos/34085835/pexels-photo-34085835.jpeg",
+                caption="Sport organisation partnership evidence",
+                use_container_width=True
+            )
+
+        with col_b:
+            st.markdown("""
+            ### Sport organisation example
+
+            The South Sydney Rabbitohs announced USANA as their Official Nutritional Partner
+            in a long-term partnership.
+
+            This is relevant because it shows USANA has professional sport organisation partnerships,
+            which can support the trust and sport evidence section of this education website.
+
+            ### Important limitation
+
+            This is a USANA partnership example. It should not be written as a direct CIRC+ product-use claim.
+
+            **Official source:**  
+            https://www.rabbitohs.com.au/content/south-sydney-rabbitohs-announce-a-clean-bill-of-health-with-usana
+            """)
+
+    with st.expander("⚠️ Athlete Safety Reminder"):
+        col_a, col_b = st.columns([1, 1.4])
+
+        with col_a:
+            st.image(
+                "athlete_safety_check.png",
+                caption="Supplement safety and responsible education",
+                use_container_width=True
+            )
+
+        with col_b:
+            st.markdown("""
+            ### Why safety information is important
+
+            Sport Integrity Australia explains that no supplement can fully guarantee an athlete will not
+            test positive to a banned substance.
+
+            This means athlete education should always include safety, batch-testing awareness and advice
+            to seek qualified guidance.
+
+            ### Website message
+
+            This website provides general education only. It does not provide medical advice,
+            treatment claims or anti-doping guarantees.
+
+            **Official source:**  
+            https://www.sportintegrity.gov.au/what-we-do/anti-doping/substances/supplements-sport
+            """)
+
+    with st.expander("🩸 Nitric Oxide Supplement Education"):
+        col_a, col_b = st.columns([1, 1.4])
+
+        with col_a:
+            st.image(
+                "nitric_oxide_education.png",
+                caption="Nitric oxide, nitrate and circulation education",
+                use_container_width=True
+            )
+
+        with col_b:
+            st.markdown("""
+            ### Why nitric oxide is relevant
+
+            Nitric oxide is commonly discussed in sports nutrition because it is connected with circulation,
+            blood flow and oxygen delivery education.
+
+            Dietary nitrate from foods such as beetroot, spinach, arugula and leafy greens may be discussed
+            as part of the nitrate → nitrite → nitric oxide pathway.
+
+            ### Website message
+
+            This section supports education only. It should not claim to diagnose, treat or cure any condition.
+            """)
+
+    st.info(
+        "Important note: Athlete and sport organisation examples relate to USANA public partnerships. "
+        "This website does not claim that these athletes personally use CIRC+ unless confirmed by an official source."
+    )
+
+    st.markdown("""
+    <div style="
+        background: rgba(30, 64, 175, 0.25);
+        border: 1px solid rgba(56, 189, 248, 0.45);
+        border-radius: 24px;
+        padding: 24px;
+        margin-top: 28px;
+        margin-bottom: 18px;
+        text-align: center;
+    ">
+        <div style="font-size: 28px; font-weight: 900; color: white;">
+            Interested in sports nutrition education?
+        </div>
+        <div style="font-size: 17px; color: #cbd5e1; margin-top: 8px;">
+            Register as an individual or submit an organisation interest form below.
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    ev1, ev2 = st.columns(2)
+
+    with ev1:
+        if st.button("Register as Individual", key="athlete_evidence_individual_register", use_container_width=True):
+            go_to("Individual Registration")
+
+    with ev2:
+        if st.button("Register Organisation Interest", key="athlete_evidence_organisation_register", use_container_width=True):
+            go_to("Organisation Registration")
+    
 # =====================================================
 # FOOTER
 # =====================================================
